@@ -97,7 +97,11 @@ const AnimatedScore = ({ score }: { score: number }) => {
 };
 
 export default function App() {
-  const [courses, setCourses] = useState<Course[]>([]);
+const [courses, setCourses] = useState<Course[]>([]);
+
+{Array.isArray(courses) ? courses.map(course => (
+  <option key={course.id} value={course.id}>{course.name}</option>
+)) : <option>Loading courses...</option>}
   const [search, setSearch] = useState('');
   const [selectedCourse, setSelectedCourse] = useState<Course | null>(null);
   
