@@ -1,4 +1,4 @@
-export default function AggregateScoreCard({ result }: { result: any }) {
+export default function AggregateScoreCard({ result, selectedCourse }: { result: any; selectedCourse: any }) {
   if (!result) return null;
 
   return (
@@ -17,7 +17,6 @@ export default function AggregateScoreCard({ result }: { result: any }) {
         {/* Score */}
         <div className="mb-10">
           <h1 className="text-8xl font-black bg-gradient-to-r from-cyan-400 via-sky-300 to-blue-500 bg-clip-text text-transparent">
-            {/* CHANGED result.aggregateScore to result.agg */}
             {result.agg ? `${Number(result.agg).toFixed(2)}%` : '0.00%'}
           </h1>
           <p className="text-slate-400 mt-3">
@@ -25,13 +24,13 @@ export default function AggregateScoreCard({ result }: { result: any }) {
           </p>
         </div>
 
-        {/* Institution */}   
+        {/* Dynamic Institution / Course Section */}   
         <div className="mb-8 rounded-2xl bg-slate-900/60 border border-white/5 p-5">
           <p className="text-slate-500 text-xs uppercase tracking-widest">
-            Target Institution
+            {selectedCourse ? 'Target Course' : 'Target Institution'}
           </p>
           <h3 className="text-2xl font-bold text-white mt-2">
-            Federal University of Technology Akure
+            {selectedCourse ? selectedCourse.name : 'Federal University of Technology Akure'}
           </h3>
         </div>
 
@@ -39,7 +38,6 @@ export default function AggregateScoreCard({ result }: { result: any }) {
         <div className="grid md:grid-cols-2 gap-4">
           <div className="rounded-2xl bg-cyan-500/10 border border-cyan-500/20 p-5">
             <p className="text-slate-400 text-sm">UTME Contribution</p>
-            {/* CHANGED static 50.63 to result.utmePts */}
             <h4 className="text-3xl font-bold text-cyan-400 mt-2">
               {result.utmePts ? result.utmePts.toFixed(2) : '0.00'} pts
             </h4>
@@ -47,19 +45,26 @@ export default function AggregateScoreCard({ result }: { result: any }) {
 
           <div className="rounded-2xl bg-blue-500/10 border border-blue-500/20 p-5">
             <p className="text-slate-400 text-sm">O'Level Contribution</p>
-            {/* CHANGED static 20.00 to result.olevelPts */}
             <h4 className="text-3xl font-bold text-blue-400 mt-2">
               {result.olevelPts ? result.olevelPts.toFixed(2) : '0.00'} pts
             </h4>
           </div>
         </div>
 
-        {/* Footer */}
-        <div className="mt-8 pt-6 border-t border-white/10">
-          <p className="text-slate-500 text-sm">Calculate your chances at</p>
-          <p className="text-cyan-400 font-semibold mt-1">
-            futaaggregate.netlify.app
-          </p>
+        {/* Footer with Contact Details */}
+        <div className="mt-8 pt-6 border-t border-white/10 flex flex-col sm:flex-row justify-between items-start sm:items-center gap-4">
+          <div>
+            <p className="text-slate-500 text-xs uppercase tracking-wider">Calculate your chances at</p>
+            <p className="text-cyan-400 font-semibold mt-0.5">
+              futaaggregate.netlify.app
+            </p>
+          </div>
+          <div className="sm:text-right">
+            <p className="text-slate-500 text-xs uppercase tracking-wider">Support & Inquiries</p>
+            <p className="text-slate-300 text-sm mt-0.5 font-medium">
+              danysey7@gmail.com | Freshyung123
+            </p>
+          </div>
         </div>
       </div>
     </div>

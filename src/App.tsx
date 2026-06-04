@@ -626,8 +626,21 @@ const downloadScorecard = async () => {
           <div>
             <div className="text-xl font-black text-[#00e5ff] tracking-widest uppercase font-['Bebas_Neue'] mb-1">AdmitNG</div>
             <div className="font-mono text-[10px] text-[#506080] uppercase tracking-widest">Empowering FUTA Aspirants</div>
+            
+            <div className="flex items-center gap-3 mt-3 justify-center md:justify-start">
+              <a href="mailto:danysey7@gmail.com" className="text-[12px] font-medium text-[#a8b8d8] hover:text-[#00e5ff] transition-colors flex items-center gap-1.5">
+                <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round"><rect width="20" height="16" x="2" y="4" rx="2"/><path d="m22 7-8.97 5.7a1.94 1.94 0 0 1-2.06 0L2 7"/></svg>
+                Email Support
+              </a>
+              <span className="text-[#1e2d4a]">|</span>
+              <a href="https://twitter.com/Freshyung123" target="_blank" rel="noreferrer" className="text-[12px] font-medium text-[#a8b8d8] hover:text-[#00e5ff] transition-colors flex items-center gap-1.5">
+                <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round"><path d="M22 4s-.7 2.1-2 3.4c1.6 10-9.4 17.3-18 11.6 2.2.1 4.4-.6 6-2C3 15.5.5 9.6 3 5c2.2 2.6 5.6 4.1 9 4-.9-4.2 4-6.6 7-3.8 1.1 0 3-1.2 3-1.2z"/></svg>
+                @AdmitNG
+              </a>
+            </div>
           </div>
-          <div className="text-[11px] text-[#506080]">
+          
+          <div className="text-[11px] text-[#506080] mt-4 md:mt-0">
             <span className="block mb-1">Disclaimer: This tool is strictly for educational and estimation purposes.</span>
             <span>We are not officially affiliated with the Federal University of Technology, Akure (FUTA).</span>
             
@@ -654,13 +667,11 @@ const downloadScorecard = async () => {
           </div>
           </div>
       )}
-
-    <div className="fixed top-0 left-[-9999px] z-[-1] opacity-0">
-  <div id="scorecard-to-export">
-    <AggregateScoreCard result={result} />
-  </div>
-</div>
-    
-    </div>
+        <div className="fixed top-0 left-[-9999px] z-[-1] opacity-0">
+          <div id="scorecard-to-export">
+            <AggregateScoreCard result={result} selectedCourse={selectedCourse} />
+          </div>
+        </div>
+      </div>
   );
 }
