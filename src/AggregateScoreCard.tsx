@@ -59,12 +59,6 @@ export default function AggregateScoreCard({ result, selectedCourse }: { result:
               futaaggregate.netlify.app
             </p>
           </div>
-          <div className="sm:text-right">
-            <p className="text-slate-500 text-xs uppercase tracking-wider">Support & Inquiries</p>
-            <p className="text-slate-300 text-sm mt-0.5 font-medium">
-              danysey7@gmail.com | Freshyung123
-            </p>
-          </div>
         </div>
       </div>
     </div>
