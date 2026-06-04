@@ -17,7 +17,8 @@ export default function AggregateScoreCard({ result }: { result: any }) {
         {/* Score */}
         <div className="mb-10">
           <h1 className="text-8xl font-black bg-gradient-to-r from-cyan-400 via-sky-300 to-blue-500 bg-clip-text text-transparent">
-            {result.aggregateScore ? `${Number(result.aggregateScore).toFixed(2)}%` : '0.00%'}
+            {/* CHANGED result.aggregateScore to result.agg */}
+            {result.agg ? `${Number(result.agg).toFixed(2)}%` : '0.00%'}
           </h1>
           <p className="text-slate-400 mt-3">
             Calculated Aggregate Score
@@ -38,15 +39,17 @@ export default function AggregateScoreCard({ result }: { result: any }) {
         <div className="grid md:grid-cols-2 gap-4">
           <div className="rounded-2xl bg-cyan-500/10 border border-cyan-500/20 p-5">
             <p className="text-slate-400 text-sm">UTME Contribution</p>
+            {/* CHANGED static 50.63 to result.utmePts */}
             <h4 className="text-3xl font-bold text-cyan-400 mt-2">
-              50.63 pts
+              {result.utmePts ? result.utmePts.toFixed(2) : '0.00'} pts
             </h4>
           </div>
 
           <div className="rounded-2xl bg-blue-500/10 border border-blue-500/20 p-5">
             <p className="text-slate-400 text-sm">O'Level Contribution</p>
+            {/* CHANGED static 20.00 to result.olevelPts */}
             <h4 className="text-3xl font-bold text-blue-400 mt-2">
-              20.00 pts
+              {result.olevelPts ? result.olevelPts.toFixed(2) : '0.00'} pts
             </h4>
           </div>
         </div>
