@@ -120,13 +120,15 @@ export default function App() {
   const [showPrivacy, setShowPrivacy] = useState(false);
   const [openFaq, setOpenFaq] = useState<number | null>(null);
 
-  useEffect(() => {
-    // In production, this would be your live server URL
-    fetch('http://localhost:3001/api/courses')
-      .then(res => res.json())
-      .then(data => setCourses(data))
-      .catch(err => console.error("API Error:", err));
-  }, []);
+useEffect(() => {
+  // Use the Netlify environment variable in production, fallback to local for development
+  const apiUrl = import.meta.env.VITE_API_URL || 'http://localhost:3001';
+  
+  fetch(`${apiUrl}/api/courses`)
+    .then(res => res.json())
+    .then(data => setCourses(data))
+    .catch(err => console.error("API Error:", err));
+}, []);
 
   const getBestGrades = () => {
     const bestMap: Record<string, number> = {};

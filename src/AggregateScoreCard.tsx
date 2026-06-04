@@ -17,14 +17,14 @@ export default function AggregateScoreCard({ result }: { result: any }) {
         {/* Score */}
         <div className="mb-10">
           <h1 className="text-8xl font-black bg-gradient-to-r from-cyan-400 via-sky-300 to-blue-500 bg-clip-text text-transparent">
-            70.63%
+            {result.aggregateScore ? `${Number(result.aggregateScore).toFixed(2)}%` : '0.00%'}
           </h1>
           <p className="text-slate-400 mt-3">
             Calculated Aggregate Score
           </p>
         </div>
 
-        {/* Institution */}
+        {/* Institution */}   
         <div className="mb-8 rounded-2xl bg-slate-900/60 border border-white/5 p-5">
           <p className="text-slate-500 text-xs uppercase tracking-widest">
             Target Institution
