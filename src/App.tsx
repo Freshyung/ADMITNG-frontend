@@ -550,7 +550,7 @@ const downloadScorecard = async () => {
                         <div key={d.id} className={`p-3.5 rounded-lg border flex items-center justify-between hover:-translate-y-[1px] transition-transform ${styles[d.cls]}`}>
                           <div>
                             <div className="text-[12px] font-bold text-[#e8f0fe] leading-snug flex items-center gap-1.5">
-                              {d.name} {d.is_estimated && <span className="font-mono text-[8px] tracking-wider text-[#ffab00] bg-[#ffab0014] px-1 py-0.5 rounded-[3px] border border-[#ffab0033] shrink-0">est.</span>}
+                              {d.name} {d.is_estimated ? <span className="font-mono text-[8px] tracking-wider text-[#ffab00] bg-[#ffab0014] px-1 py-0.5 rounded-[3px] border border-[#ffab0033] shrink-0">est.</span> : null}
                             </div>
                             <div className="font-mono text-[9px] text-[#506080] mt-1">Range: {d.range_low} – {d.range_high}</div>
                           </div>
