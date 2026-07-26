@@ -5,7 +5,7 @@ interface SplashProps {
 }
 
 export default function Splash({ onEnter }: SplashProps) {
-  const [timeLeft, setTimeLeft] = useState(4);
+  const [timeLeft, setTimeLeft] = useState(9);
 
   useEffect(() => {
     if (timeLeft <= 0) {
