@@ -35,7 +35,7 @@ export default function Splash({ onEnter }: SplashProps) {
           EMPEROR
         </h1>
 
-        <p className="font-mono text-[12px] tracking-widest text-[#a8b8d8] uppercase mb-12">Empowering FUTA Aspirants Nationwide</p>
+        <p className="font-mono text-[12px] tracking-widest text-[#a8b8d8] uppercase mb-12">THE MANDATE KEEPS US GOING</p>
 
         {/* Manual Enter Button */}
         <button 
