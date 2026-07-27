@@ -707,7 +707,7 @@ export default function App() {
                     </button>
 
                     <a 
-                      href="https://chat.whatsapp.com/Cj8Y9C1rM4YH4ju7FrIn5j?mode=gi_t" 
+                      href="https://chat.whatsapp.com/Cj8Y9C1rM4YH4ju7FrIn5j?s=sh&p=a&ilr=4" 
                       target="_blank" 
                       rel="noreferrer" 
                       className="w-full flex items-center justify-center gap-2 bg-[#25D366] hover:opacity-90 active:scale-[0.98] text-black text-[12px] font-extrabold py-[14px] rounded-lg transition-all border-none"
