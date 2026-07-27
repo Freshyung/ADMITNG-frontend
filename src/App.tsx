@@ -569,6 +569,24 @@ export default function App() {
                         <div className="font-mono text-[9px] tracking-widest uppercase text-[#506080] mt-1">O'Level · 25%</div>
                       </div>
                     </div>
+
+                    {/* --- OPTION A: EMPEROR BADGE ON RESULT BANNER --- */}
+                    <div className="mt-6 pt-4 border-t border-[#16213a] flex flex-col md:flex-row items-start md:items-center gap-2">
+                      <span className="text-[11px] text-[#a8b8d8] font-medium">
+                        Have questions about your screening or department options?
+                      </span>
+                      <a 
+                        href="https://wa.me/2348026504847" 
+                        target="_blank" 
+                        rel="noreferrer" 
+                        className="inline-flex items-center gap-1.5 px-3 py-1 rounded-full bg-[#25D366]/10 border border-[#25D366]/30 text-[#25D366] text-[11px] font-bold hover:bg-[#25D366] hover:text-black transition-all duration-200 shrink-0"
+                      >
+                        <svg width="13" height="13" viewBox="0 0 24 24" fill="currentColor">
+                          <path d="M12.012 2c-5.506 0-9.989 4.478-9.99 9.984 0 1.762.459 3.48 1.332 5.001l-1.416 5.169 5.291-1.387c1.468.8 3.123 1.222 4.781 1.223h.004c5.505 0 9.988-4.478 9.989-9.985 0-2.667-1.037-5.176-2.922-7.062a9.92 9.92 0 0 0-7.069-2.943zm5.82 13.918c-.244.688-1.42 1.314-1.957 1.398-.537.085-1.22.122-3.842-.924-3.238-1.291-5.328-4.582-5.489-4.798-.161-.215-1.311-1.745-1.311-3.328 0-1.583.829-2.361 1.123-2.684.293-.323.635-.404.847-.404.212 0 .424.003.608.012.195.01.458-.073.716.547.26.621.886 2.162.963 2.319.077.158.128.343.025.547-.103.204-.154.331-.308.508-.154.178-.324.398-.463.535-.154.153-.314.32-.135.628.179.308.794 1.309 1.703 2.119 1.168 1.041 2.153 1.363 2.461 1.517.308.154.488.128.667-.077.18-.205.77-.898.975-1.206.205-.308.41-.257.693-.154.282.103 1.794.846 2.102.999.308.154.513.231.589.36.077.129.077.747-.167 1.435z"/>
+                        </svg>
+                        Contact EMPEROR on WhatsApp
+                      </a>
+                    </div>
                   </div>
                   <div className="hidden md:block font-['Bebas_Neue'] text-[88px] text-white/5 leading-none select-none">FUTA</div>
                 </div>
@@ -740,7 +758,7 @@ export default function App() {
 
         </div>
 
-        {/* --- FOOTER --- */}
+        {/* --- FOOTER (OPTION B) --- */}
         <footer className="relative z-20 border-t border-[#16213a] bg-[#080d18] py-8 mt-auto w-full">
           <div className="max-w-6xl mx-auto px-5 lg:px-10 flex flex-col md:flex-row justify-between items-center gap-4 text-center md:text-left">
             <div>
@@ -758,8 +776,11 @@ export default function App() {
                   @Freshyung23
                 </a>
                 <span className="text-[#1e2d4a]">|</span>
-                <a href="https://wa.me/2348026504847" target="_blank" rel="noreferrer" className="text-[12px] font-bold text-[#00e5ff] hover:text-white transition-colors flex items-center gap-1.5">
-                  ⚡ Contact EMPEROR
+                <a href="https://wa.me/2348026504847" target="_blank" rel="noreferrer" className="text-[12px] font-bold text-[#25D366] hover:text-white transition-colors flex items-center gap-1.5">
+                  <svg width="14" height="14" viewBox="0 0 24 24" fill="currentColor">
+                    <path d="M12.012 2c-5.506 0-9.989 4.478-9.99 9.984 0 1.762.459 3.48 1.332 5.001l-1.416 5.169 5.291-1.387c1.468.8 3.123 1.222 4.781 1.223h.004c5.505 0 9.988-4.478 9.989-9.985 0-2.667-1.037-5.176-2.922-7.062a9.92 9.92 0 0 0-7.069-2.943zm5.82 13.918c-.244.688-1.42 1.314-1.957 1.398-.537.085-1.22.122-3.842-.924-3.238-1.291-5.328-4.582-5.489-4.798-.161-.215-1.311-1.745-1.311-3.328 0-1.583.829-2.361 1.123-2.684.293-.323.635-.404.847-.404.212 0 .424.003.608.012.195.01.458-.073.716.547.26.621.886 2.162.963 2.319.077.158.128.343.025.547-.103.204-.154.331-.308.508-.154.178-.324.398-.463.535-.154.153-.314.32-.135.628.179.308.794 1.309 1.703 2.119 1.168 1.041 2.153 1.363 2.461 1.517.308.154.488.128.667-.077.18-.205.77-.898.975-1.206.205-.308.41-.257.693-.154.282.103 1.794.846 2.102.999.308.154.513.231.589.36.077.129.077.747-.167 1.435z"/>
+                  </svg>
+                  Contact EMPEROR
                 </a>
               </div>
             </div>
