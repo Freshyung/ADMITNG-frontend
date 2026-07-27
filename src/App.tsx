@@ -173,6 +173,20 @@ export default function App() {
       .catch(err => console.error("API Error:", err));
   }, []);
 
+  // Universal WhatsApp DM Helper (Bypasses mobile share sheets & works on desktop web)
+  const openEmperorDM = (e: React.MouseEvent) => {
+    e.preventDefault();
+    const phone = "2348026504847";
+    const text = encodeURIComponent("Hello EMPEROR, I have a question from AdmitNG");
+    const isMobile = /Android|iPhone|iPad|iPod/i.test(navigator.userAgent);
+
+    if (isMobile) {
+      window.location.href = `whatsapp://send?phone=${phone}&text=${text}`;
+    } else {
+      window.open(`https://web.whatsapp.com/send?phone=${phone}&text=${text}`, '_blank');
+    }
+  };
+
   const getBestGrades = () => {
     const bestMap: Record<string, number> = {};
     
@@ -618,15 +632,14 @@ export default function App() {
                       </div>
                     </div>
 
-                    {/* --- OPTION A: EMPEROR BADGE ON RESULT BANNER --- */}
+                    {/* --- EMPEROR BADGE ON RESULT BANNER --- */}
                     <div className="mt-6 pt-4 border-t border-slate-100 dark:border-[#16213a] flex flex-col md:flex-row items-start md:items-center gap-2">
                       <span className="text-[11px] text-slate-500 dark:text-[#a8b8d8] font-medium">
                         Have questions about your screening or department options?
                       </span>
                       <a 
-                        href="https://api.whatsapp.com/send?phone=2348026504847&text=Hello%20EMPEROR,%20I%20have%20a%20question%20from%20AdmitNG" 
-                        target="_blank" 
-                        rel="noreferrer" 
+                        href="#"
+                        onClick={openEmperorDM}
                         className="inline-flex items-center gap-1.5 px-3 py-1 rounded-full bg-emerald-50 dark:bg-[#25D366]/10 border border-emerald-300 dark:border-[#25D366]/30 text-emerald-700 dark:text-[#25D366] text-[11px] font-bold hover:bg-[#25D366] hover:text-white dark:hover:text-black transition-all duration-200 shrink-0"
                       >
                         <svg width="13" height="13" viewBox="0 0 24 24" fill="currentColor">
@@ -814,7 +827,7 @@ export default function App() {
 
         </div>
 
-        {/* --- FOOTER (OPTION B) --- */}
+        {/* --- FOOTER --- */}
         <footer className="relative z-20 border-t border-slate-200 dark:border-[#16213a] bg-white dark:bg-[#080d18] py-8 mt-auto w-full transition-colors">
           <div className="max-w-6xl mx-auto px-5 lg:px-10 flex flex-col md:flex-row justify-between items-center gap-4 text-center md:text-left">
             <div>
@@ -833,9 +846,8 @@ export default function App() {
                 </a>
                 <span className="text-slate-300 dark:text-[#1e2d4a]">|</span>
                 <a 
-                  href="https://api.whatsapp.com/send?phone=2348026504847&text=Hello%20EMPEROR,%20I%20have%20a%20question%20from%20AdmitNG" 
-                  target="_blank" 
-                  rel="noreferrer" 
+                  href="#"
+                  onClick={openEmperorDM}
                   className="text-[12px] font-bold text-[#25D366] hover:opacity-80 transition-opacity flex items-center gap-1.5"
                 >
                   <svg width="14" height="14" viewBox="0 0 24 24" fill="currentColor">
