@@ -737,10 +737,10 @@ export default function App() {
                   </div>
 
                   {/* 4-Column Action Buttons Grid */}
-                  <div className="grid grid-cols-2 sm:grid-cols-4 gap-2.5 mt-6">
+                  <div className="grid grid-cols-2 sm:grid-cols-4 gap-2 mt-6">
                     <button 
                       onClick={downloadScorecard} 
-                      className="w-full flex items-center justify-center gap-1.5 bg-slate-100 dark:bg-[#0c1220] hover:bg-slate-200 dark:hover:bg-[#0f1628] border border-slate-300 dark:border-[#1e2d4a] active:scale-[0.98] text-slate-700 dark:text-[#a8b8d8] text-[11px] font-bold py-[13px] rounded-lg transition-all"
+                      className="w-full flex items-center justify-center gap-1.5 bg-slate-100 dark:bg-[#0c1220] hover:bg-slate-200 dark:hover:bg-[#0f1628] border border-slate-300 dark:border-[#1e2d4a] active:scale-[0.98] text-slate-700 dark:text-[#a8b8d8] text-[10px] sm:text-[11px] font-bold py-[12px] px-1 rounded-lg transition-all"
                     >
                       <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2"><path d="M21 15v4a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2v-4"/><polyline points="7 10 12 15 17 10"/><line x1="12" y1="15" x2="12" y2="3"/></svg>
                       Save Card
@@ -748,7 +748,7 @@ export default function App() {
 
                     <button 
                       onClick={copyToClipboard} 
-                      className="w-full flex items-center justify-center gap-1.5 bg-slate-100 dark:bg-[#0c1220] hover:bg-slate-200 dark:hover:bg-[#0f1628] border border-slate-300 dark:border-[#1e2d4a] active:scale-[0.98] text-slate-700 dark:text-[#a8b8d8] text-[11px] font-bold py-[13px] rounded-lg transition-all"
+                      className="w-full flex items-center justify-center gap-1.5 bg-slate-100 dark:bg-[#0c1220] hover:bg-slate-200 dark:hover:bg-[#0f1628] border border-slate-300 dark:border-[#1e2d4a] active:scale-[0.98] text-slate-700 dark:text-[#a8b8d8] text-[10px] sm:text-[11px] font-bold py-[12px] px-1 rounded-lg transition-all"
                     >
                       <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2"><rect x="9" y="9" width="13" height="13" rx="2" ry="2"/><path d="M5 15H4a2 2 0 0 1-2-2V4a2 2 0 0 1 2-2h9a2 2 0 0 1 2 2v1"/></svg>
                       Copy Text
@@ -756,20 +756,20 @@ export default function App() {
 
                     <button 
                       onClick={shareResult} 
-                      className="w-full flex items-center justify-center gap-1.5 bg-sky-500 dark:bg-[#00e5ff] hover:opacity-90 active:scale-[0.98] text-white dark:text-[#03060d] text-[11px] font-extrabold py-[13px] rounded-lg transition-all border-none shadow-sm"
+                      className="w-full flex items-center justify-center gap-1.5 bg-sky-500 dark:bg-[#00e5ff] hover:opacity-90 active:scale-[0.98] text-white dark:text-[#03060d] text-[10px] sm:text-[11px] font-extrabold py-[12px] px-1 rounded-lg transition-all border-none shadow-sm"
                     >
                       <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2.5" strokeLinecap="round" strokeLinejoin="round"><circle cx="18" cy="5" r="3"/><circle cx="6" cy="12" r="3"/><circle cx="18" cy="19" r="3"/><line x1="8.59" y1="13.51" x2="15.42" y2="17.49"/><line x1="15.41" y1="6.51" x2="8.59" y2="10.49"/></svg>
-                      Share
+                      Share Result
                     </button>
 
                     <a 
                       href="https://chat.whatsapp.com/Cj8Y9C1rM4YH4ju7FrIn5J?s=sh&p=a&ilr=4" 
                       target="_blank" 
                       rel="noreferrer" 
-                      className="w-full flex items-center justify-center gap-1.5 bg-[#25D366] hover:opacity-90 active:scale-[0.98] text-black text-[11px] font-extrabold py-[13px] rounded-lg transition-all border-none shadow-sm"
+                      className="w-full flex items-center justify-center gap-1.5 bg-[#25D366] hover:opacity-90 active:scale-[0.98] text-black text-[10px] sm:text-[11px] font-extrabold py-[12px] px-1 rounded-lg transition-all border-none shadow-sm whitespace-nowrap"
                     >
                       <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2.5" strokeLinecap="round" strokeLinejoin="round"><path d="M21 11.5a8.38 8.38 0 0 1-.9 3.8 8.5 8.5 0 0 1-7.6 4.7 8.38 8.38 0 0 1-3.8-.9L3 21l1.9-5.7a8.38 8.38 0 0 1-.9-3.8 8.5 8.5 0 0 1 4.7-7.6 8.38 8.38 0 0 1 3.8-.9h.5a8.48 8.48 0 0 1 8 8v.5z"/></svg>
-                      Community
+                      Aspirant Group
                     </a>
                   </div>
                 </div>
