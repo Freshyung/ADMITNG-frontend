@@ -1,4 +1,4 @@
-import { useState, useEffect } from 'react';
+import React, { useState, useEffect } from 'react';
 import * as htmlToImage from 'html-to-image';
 import AggregateScoreCard from './AggregateScoreCard';
 import Splash from './Splash';
@@ -15,6 +15,9 @@ interface Course {
   jamb_subjects: string;
   olevel_subjects: string;
 }
+
+type FilterType = 'all' | 'safe' | 'comp' | 'risky' | 'health';
+type StringSetState = React.Dispatch<React.SetStateAction<string[]>>;
 
 const GRADE_POINTS: Record<string, number> = { A1: 80, B2: 72, B3: 67, C4: 62, C5: 57, C6: 52 };
 const SUBJECTS = [
@@ -155,7 +158,7 @@ export default function App() {
 
   // Results State
   const [result, setResult] = useState<{ agg: number, utmePts: number, olevelPts: number } | null>(null);
-  const [filter, setFilter] = useState<'all' | 'safe' | 'comp' | 'risky' | 'health'>('all');
+  const [filter, setFilter] = useState<FilterType>('all');
   const [showPrivacy, setShowPrivacy] = useState(false);
   const [openFaq, setOpenFaq] = useState<number | null>(null);
 
@@ -421,7 +424,7 @@ export default function App() {
               <div className="absolute top-0 inset-x-0 h-px bg-gradient-to-r from-transparent via-sky-500/40 dark:via-[#00e5ff66] to-transparent"></div>
               
               <div className="font-mono text-[9px] tracking-widest uppercase text-slate-500 dark:text-[#506080] mb-6 flex items-center gap-2">
-                <span className="text-sky-600 dark:text-[#00e5ff] border border-sky-300 dark:border-[#00e5ff40] w-[22px] h-[22px] rounded-[3px] flex items-center justify-center text-[10px] shrink-0 font-bold">01</span> 
+                <span className="text-sky-600 dark:text-[#00e5ff] border border-sky-300 dark:border-[#00e5ff4d] w-[22px] h-[22px] rounded-[3px] flex items-center justify-center text-[10px] shrink-0 font-bold">01</span> 
                 JAMB Subject Checker
               </div>
               <p className="text-[13px] text-slate-600 dark:text-[#a8b8d8] mb-5 leading-relaxed">Select a course to instantly see its required JAMB subjects, O'Level requirements, minimum score, and estimated aggregate range.</p>
@@ -525,7 +528,7 @@ export default function App() {
               <div className="absolute top-0 inset-x-0 h-px bg-gradient-to-r from-transparent via-sky-500/40 dark:via-[#00e5ff66] to-transparent"></div>
               
               <div className="font-mono text-[9px] tracking-widest uppercase text-slate-500 dark:text-[#506080] mb-6 flex items-center gap-2">
-                <span className="text-sky-600 dark:text-[#00e5ff] border border-sky-300 dark:border-[#00e5ff40] w-[22px] h-[22px] rounded-[3px] flex items-center justify-center text-[10px] shrink-0 font-bold">02</span> 
+                <span className="text-sky-600 dark:text-[#00e5ff] border border-sky-300 dark:border-[#00e5ff4d] w-[22px] h-[22px] rounded-[3px] flex items-center justify-center text-[10px] shrink-0 font-bold">02</span> 
                 Aggregate Calculator
               </div>
 
@@ -559,7 +562,7 @@ export default function App() {
 
               {/* O'Level Inputs mapping */}
               {(activeTab === 1 ? [subjects1, setSubjects1, grades1, setGrades1] : [subjects2, setSubjects2, grades2, setGrades2]).map((_, __, arr) => {
-                const [subs, setSubs, grds, setGrds] = arr as [string[], any, string[], any];
+                const [subs, setSubs, grds, setGrds] = arr as [string[], StringSetState, string[], StringSetState];
                 return (
                   <div key={activeTab} className="mt-4 animate-[fadeUp_0.2s_ease_both]">
                     <div className="font-mono text-[9px] tracking-widest uppercase text-slate-400 dark:text-[#506080] mb-3">O'Level Grades — {activeTab === 1 ? 'First' : 'Second'} Sitting</div>
@@ -666,7 +669,7 @@ export default function App() {
                       ].map(f => (
                         <button 
                           key={f.id} 
-                          onClick={() => setFilter(f.id as any)}
+                          onClick={() => setFilter(f.id as FilterType)}
                           className={`px-3.5 py-1.5 rounded-[4px] border font-mono text-[9px] tracking-widest uppercase transition-all ${filter === f.id ? 'bg-sky-50 dark:bg-[#00e5ff14] border-sky-300 dark:border-[#00e5ff4d] text-sky-600 dark:text-[#00e5ff] font-bold' : 'bg-transparent border-slate-200 dark:border-[#1e2d4a] text-slate-500 dark:text-[#506080]'}`}
                         >
                           {f.label}
