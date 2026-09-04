@@ -16,9 +16,16 @@ interface Course {
   olevel_subjects: string;
 }
 
+interface CourseCacheEntry {
+  data: Course[];
+  timestamp: number;
+}
+
 type FilterType = 'all' | 'safe' | 'comp' | 'risky' | 'health';
 type StringSetState = React.Dispatch<React.SetStateAction<string[]>>;
 
+const COURSE_CACHE_KEY = 'futa_courses_cache';
+const COURSE_CACHE_TTL_MS = 1000 * 60 * 60 * 12;
 const GRADE_POINTS: Record<string, number> = { A1: 80, B2: 72, B3: 67, C4: 62, C5: 57, C6: 52 };
 const SUBJECTS = [
   "English Language", "Mathematics", "Physics", "Chemistry", "Biology", 
@@ -123,16 +130,30 @@ export default function App() {
     setShowSplash(false);
   };
 
-  // Instant Course Loading via localStorage cache
-  const [courses, setCourses] = useState<Course[]>(() => {
-    if (typeof window !== 'undefined') {
-      const cached = localStorage.getItem('futa_courses_cache');
-      if (cached) {
-        try { return JSON.parse(cached); } catch (e) { console.error(e); }
-      }
+  const readCourseCache = (): Course[] => {
+    if (typeof window === 'undefined') return [];
+
+    try {
+      const cached = localStorage.getItem(COURSE_CACHE_KEY);
+      if (!cached) return [];
+
+      const parsed = JSON.parse(cached) as CourseCacheEntry | null;
+      if (!parsed || !Array.isArray(parsed.data)) return [];
+
+      const isFresh = Date.now() - parsed.timestamp < COURSE_CACHE_TTL_MS;
+      if (!isFresh) return parsed.data;
+
+      return parsed.data;
+    } catch (error) {
+      console.warn('Failed to read course cache:', error);
+      return [];
     }
-    return [];
-  });
+  };
+
+  // Instant Course Loading via localStorage cache
+  const [courses, setCourses] = useState<Course[]>(() => readCourseCache());
+  const [hasFetchedCourses, setHasFetchedCourses] = useState(false);
+  const isLoadingCourses = !hasFetchedCourses && courses.length === 0;
 
   const [search, setSearch] = useState('');
   const [selectedCourse, setSelectedCourse] = useState<Course | null>(null);
@@ -164,16 +185,33 @@ export default function App() {
 
   useEffect(() => {
     const apiUrl = import.meta.env.VITE_API_URL || 'http://localhost:3001';
-    
+    let isMounted = true;
+
     fetch(`${apiUrl}/api/courses`)
-      .then(res => res.json())
-      .then(data => {
-        if (Array.isArray(data)) {
-          setCourses(data);
-          localStorage.setItem('futa_courses_cache', JSON.stringify(data));
+      .then((res) => {
+        if (!res.ok) {
+          throw new Error(`HTTP ${res.status}`);
         }
+        return res.json();
       })
-      .catch(err => console.error("API Error:", err));
+      .then((data) => {
+        if (!isMounted || !Array.isArray(data)) return;
+
+        setCourses(data);
+        setHasFetchedCourses(true);
+        localStorage.setItem(
+          COURSE_CACHE_KEY,
+          JSON.stringify({ data, timestamp: Date.now() } satisfies CourseCacheEntry)
+        );
+      })
+      .catch((err) => {
+        console.error('API Error:', err);
+        if (isMounted) setHasFetchedCourses(true);
+      });
+
+    return () => {
+      isMounted = false;
+    };
   }, []);
 
   // Universal WhatsApp DM Helper (Bypasses mobile share sheets & works on desktop web)
@@ -421,6 +459,17 @@ export default function App() {
             
             {/* Card 1: Course Search & JAMB Validator */}
             <div className="bg-white dark:bg-[#0c1220] border border-slate-200 dark:border-[#16213a] shadow-md dark:shadow-none rounded-2xl p-9 relative z-20 animate-[fadeUp_0.4s_ease_both]">
+              {isLoadingCourses && courses.length === 0 && (
+                <div className="mb-5 animate-pulse space-y-3">
+                  <div className="h-3 w-28 rounded bg-slate-200 dark:bg-[#16213a]" />
+                  <div className="h-12 w-full rounded-xl bg-slate-200 dark:bg-[#16213a]" />
+                  <div className="space-y-2 pt-2">
+                    {[0, 1, 2, 3].map((row) => (
+                      <div key={row} className="h-14 rounded-xl bg-slate-100 dark:bg-[#0b1220] border border-slate-200 dark:border-[#16213a]" />
+                    ))}
+                  </div>
+                </div>
+              )}
               <div className="absolute top-0 inset-x-0 h-px bg-gradient-to-r from-transparent via-sky-500/40 dark:via-[#00e5ff66] to-transparent"></div>
               
               <div className="font-mono text-[9px] tracking-widest uppercase text-slate-500 dark:text-[#506080] mb-6 flex items-center gap-2">
