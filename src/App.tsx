@@ -842,22 +842,14 @@ export default function App() {
                     ⚠ Medicine & Surgery (MBBS) and Nursing Sciences cut-offs are estimated. Always verify at futa.edu.ng.
                   </div>
 
-                  {/* 4-Column Action Buttons Grid */}
-                  <div className="grid grid-cols-2 sm:grid-cols-4 gap-2 mt-6">
+                  {/* 3-Column Action Buttons Grid */}
+                  <div className="grid grid-cols-2 sm:grid-cols-3 gap-2 mt-6">
                     <button 
                       onClick={downloadScorecard} 
                       className="w-full flex items-center justify-center gap-1.5 bg-slate-100 dark:bg-[#0c1220] hover:bg-slate-200 dark:hover:bg-[#0f1628] border border-slate-300 dark:border-[#1e2d4a] active:scale-[0.98] text-slate-700 dark:text-[#a8b8d8] text-[10px] sm:text-[11px] font-bold py-[12px] px-1 rounded-lg transition-all"
                     >
                       <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2"><path d="M21 15v4a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2v-4"/><polyline points="7 10 12 15 17 10"/><line x1="12" y1="15" x2="12" y2="3"/></svg>
                       Save Card
-                    </button>
-
-                    <button 
-                      onClick={copyToClipboard} 
-                      className="w-full flex items-center justify-center gap-1.5 bg-slate-100 dark:bg-[#0c1220] hover:bg-slate-200 dark:hover:bg-[#0f1628] border border-slate-300 dark:border-[#1e2d4a] active:scale-[0.98] text-slate-700 dark:text-[#a8b8d8] text-[10px] sm:text-[11px] font-bold py-[12px] px-1 rounded-lg transition-all"
-                    >
-                      <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2"><rect x="9" y="9" width="13" height="13" rx="2" ry="2"/><path d="M5 15H4a2 2 0 0 1-2-2V4a2 2 0 0 1 2-2h9a2 2 0 0 1 2 2v1"/></svg>
-                      Copy Text
                     </button>
 
                     <button 
