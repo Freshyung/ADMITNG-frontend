@@ -312,9 +312,10 @@ export default function App() {
 
     const shareUrl = window.location.href || 'https://futaaggregate.netlify.app';
     const shareText = `I just calculated my FUTA aggregate: ${result.agg.toFixed(2)}%! 🎯\n\nCheck your admission chances for any FUTA department before screening. Free & accurate.\n${shareUrl}`;
+    const isMobile = /Android|iPhone|iPad|iPod/i.test(navigator.userAgent);
 
     try {
-      if (navigator.share) {
+      if (navigator.share && isMobile && window.isSecureContext) {
         try {
           await navigator.share({
             title: 'AdmitNG FUTA Calculator',
@@ -323,7 +324,7 @@ export default function App() {
           });
           return;
         } catch {
-          // Fall through to copy/WhatsApp fallback below.
+          // Native share failed, continue to the fallback flow.
         }
       }
 
