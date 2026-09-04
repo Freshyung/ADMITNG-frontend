@@ -305,25 +305,47 @@ export default function App() {
   };
     
   const shareResult = async () => {
-    const scoreText = result ? `I just calculated my FUTA aggregate: *${result.agg.toFixed(2)}%*! 🎯\n\n` : '';
+    const shareUrl = window.location.href || 'https://futaaggregate.netlify.app';
+    const scoreText = result
+      ? `I just calculated my FUTA aggregate: ${result.agg.toFixed(2)}%! 🎯`
+      : 'Check my FUTA admission chances before screening.';
+
     const shareData = {
       title: 'AdmitNG FUTA Calculator',
-      text: `${scoreText}Check your admission chances for any FUTA department before screening. Free & accurate.\n\n`,
-      url: 'https://futaaggregate.netlify.app'
+      text: `${scoreText}\n\nCheck your admission chances for any FUTA department before screening. Free & accurate.`,
+      url: shareUrl,
     };
 
-    if (navigator.share) {
-      try {
+    try {
+      if (navigator.share && (!navigator.canShare || navigator.canShare(shareData))) {
         await navigator.share(shareData);
-      } catch (err) {
-        console.log('Share canceled or failed:', err);
+        return;
       }
-    } else {
+
+      if (navigator.clipboard && window.isSecureContext) {
+        await navigator.clipboard.writeText(`${shareData.text}\n${shareData.url}`);
+        alert('Score and link copied to clipboard! 📋');
+        return;
+      }
+
+      const whatsappUrl = `https://wa.me/?text=${encodeURIComponent(`${shareData.text}\n${shareData.url}`)}`;
+      window.open(whatsappUrl, '_blank', 'noopener,noreferrer');
+      alert('Sharing is not supported in this browser, so we opened WhatsApp with your result.');
+    } catch (err) {
+      console.error('Share failed:', err);
+
       try {
-        await navigator.clipboard.writeText(`${shareData.text} ${shareData.url}`);
-        alert("Score and link copied to clipboard! 📋");
-      } catch (err) {
-        console.error('Failed to copy', err);
+        if (navigator.clipboard && window.isSecureContext) {
+          await navigator.clipboard.writeText(`${shareData.text}\n${shareData.url}`);
+          alert('Share was unavailable, so the result was copied to your clipboard. 📋');
+          return;
+        }
+
+        const whatsappUrl = `https://wa.me/?text=${encodeURIComponent(`${shareData.text}\n${shareData.url}`)}`;
+        window.open(whatsappUrl, '_blank', 'noopener,noreferrer');
+      } catch (fallbackErr) {
+        console.error('Fallback share failed:', fallbackErr);
+        alert('Sharing is unavailable on this browser right now. Please try again from a mobile browser or copy the result manually.');
       }
     }
   };
