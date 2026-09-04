@@ -305,44 +305,56 @@ export default function App() {
   };
     
   const shareResult = async () => {
-    const shareUrl = window.location.href || 'https://futaaggregate.netlify.app';
-    const scoreText = result
-      ? `I just calculated my FUTA aggregate: ${result.agg.toFixed(2)}%! 🎯`
-      : 'Check my FUTA admission chances before screening.';
+    if (!result) {
+      alert('Please calculate your aggregate first before sharing.');
+      return;
+    }
 
-    const shareData = {
-      title: 'AdmitNG FUTA Calculator',
-      text: `${scoreText}\n\nCheck your admission chances for any FUTA department before screening. Free & accurate.`,
-      url: shareUrl,
-    };
+    const shareUrl = window.location.href || 'https://futaaggregate.netlify.app';
+    const shareText = `I just calculated my FUTA aggregate: ${result.agg.toFixed(2)}%! 🎯\n\nCheck your admission chances for any FUTA department before screening. Free & accurate.\n${shareUrl}`;
 
     try {
-      if (navigator.share && (!navigator.canShare || navigator.canShare(shareData))) {
-        await navigator.share(shareData);
-        return;
+      if (navigator.share) {
+        try {
+          await navigator.share({
+            title: 'AdmitNG FUTA Calculator',
+            text: 'Check my FUTA admission chances before screening.',
+            url: shareUrl,
+          });
+          return;
+        } catch {
+          // Fall through to copy/WhatsApp fallback below.
+        }
       }
 
       if (navigator.clipboard && window.isSecureContext) {
-        await navigator.clipboard.writeText(`${shareData.text}\n${shareData.url}`);
-        alert('Score and link copied to clipboard! 📋');
+        await navigator.clipboard.writeText(shareText);
+        alert('Result copied to clipboard! 📋');
         return;
       }
 
-      const whatsappUrl = `https://wa.me/?text=${encodeURIComponent(`${shareData.text}\n${shareData.url}`)}`;
-      window.open(whatsappUrl, '_blank', 'noopener,noreferrer');
-      alert('Sharing is not supported in this browser, so we opened WhatsApp with your result.');
+      const whatsappUrl = `https://wa.me/?text=${encodeURIComponent(shareText)}`;
+      const opened = window.open(whatsappUrl, '_blank', 'noopener,noreferrer');
+
+      if (!opened) {
+        window.location.href = whatsappUrl;
+      } else {
+        alert('Sharing is not supported in this browser, so we opened WhatsApp with your result.');
+      }
     } catch (err) {
       console.error('Share failed:', err);
-
       try {
         if (navigator.clipboard && window.isSecureContext) {
-          await navigator.clipboard.writeText(`${shareData.text}\n${shareData.url}`);
+          await navigator.clipboard.writeText(shareText);
           alert('Share was unavailable, so the result was copied to your clipboard. 📋');
           return;
         }
 
-        const whatsappUrl = `https://wa.me/?text=${encodeURIComponent(`${shareData.text}\n${shareData.url}`)}`;
-        window.open(whatsappUrl, '_blank', 'noopener,noreferrer');
+        const whatsappUrl = `https://wa.me/?text=${encodeURIComponent(shareText)}`;
+        const opened = window.open(whatsappUrl, '_blank', 'noopener,noreferrer');
+        if (!opened) {
+          window.location.href = whatsappUrl;
+        }
       } catch (fallbackErr) {
         console.error('Fallback share failed:', fallbackErr);
         alert('Sharing is unavailable on this browser right now. Please try again from a mobile browser or copy the result manually.');
@@ -353,15 +365,21 @@ export default function App() {
   const copyToClipboard = () => {
     if (!result) return;
     const courseText = selectedCourse ? `Choice: ${selectedCourse.name}\n` : '';
+    const shareUrl = window.location.href || 'https://futaaggregate.netlify.app';
     const text = `🎯 My FUTA Aggregate Score on AdmitNG:\n` +
                  `UTME Score: ${utmeScore}/400 (${result.utmePts} pts)\n` +
                  `O'Level Score: ${result.olevelPts}/25 pts\n` +
                  `Total Aggregate: ${result.agg}%\n` +
                  courseText +
-                 `Calculate yours here: https://futaaggregate.netlify.app`;
-                 
-    navigator.clipboard.writeText(text);
-    alert("Aggregate breakdown copied to clipboard! 📋");
+                 `Calculate yours here: ${shareUrl}`;
+
+    if (navigator.clipboard && window.isSecureContext) {
+      navigator.clipboard.writeText(text);
+      alert('Aggregate breakdown copied to clipboard! 📋');
+      return;
+    }
+
+    alert('Clipboard access is unavailable in this browser. Please use the share button instead.');
   };
 
   const filteredSearch = courses.filter(c => 
