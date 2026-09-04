@@ -363,26 +363,6 @@ export default function App() {
     }
   };
 
-  const copyToClipboard = () => {
-    if (!result) return;
-    const courseText = selectedCourse ? `Choice: ${selectedCourse.name}\n` : '';
-    const shareUrl = window.location.href || 'https://futaaggregate.netlify.app';
-    const text = `🎯 My FUTA Aggregate Score on AdmitNG:\n` +
-                 `UTME Score: ${utmeScore}/400 (${result.utmePts} pts)\n` +
-                 `O'Level Score: ${result.olevelPts}/25 pts\n` +
-                 `Total Aggregate: ${result.agg}%\n` +
-                 courseText +
-                 `Calculate yours here: ${shareUrl}`;
-
-    if (navigator.clipboard && window.isSecureContext) {
-      navigator.clipboard.writeText(text);
-      alert('Aggregate breakdown copied to clipboard! 📋');
-      return;
-    }
-
-    alert('Clipboard access is unavailable in this browser. Please use the share button instead.');
-  };
-
   const filteredSearch = courses.filter(c => 
     c.name.toLowerCase().includes(search.toLowerCase()) || 
     c.school.toLowerCase().includes(search.toLowerCase())
