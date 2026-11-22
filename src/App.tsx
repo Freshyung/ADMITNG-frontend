@@ -153,6 +153,9 @@ export default function App() {
   // Instant Course Loading via localStorage cache
   const [courses, setCourses] = useState<Course[]>(() => readCourseCache());
   const [hasFetchedCourses, setHasFetchedCourses] = useState(false);
+  const [isWakingServer, setIsWakingServer] = useState(false);
+  const [fetchError, setFetchError] = useState(false);
+  const [fetchAttempt, setFetchAttempt] = useState(0);
   const isLoadingCourses = !hasFetchedCourses && courses.length === 0;
 
   const [search, setSearch] = useState('');
@@ -186,33 +189,59 @@ export default function App() {
   useEffect(() => {
     const apiUrl = import.meta.env.VITE_API_URL || 'http://localhost:3001';
     let isMounted = true;
+    const controller = new AbortController();
 
-    fetch(`${apiUrl}/api/courses`)
-      .then((res) => {
-        if (!res.ok) {
-          throw new Error(`HTTP ${res.status}`);
+    // If Render doesn't respond in 3.5s, let first-time visitors know it's waking up
+    const wakeTimer = window.setTimeout(() => {
+      if (isMounted) setIsWakingServer(true);
+    }, 3500);
+
+    const fetchWithRetry = async (retriesLeft = 1): Promise<unknown> => {
+      try {
+        const res = await fetch(`${apiUrl}/api/courses`, { signal: controller.signal });
+        if (!res.ok) throw new Error(`HTTP ${res.status}`);
+        return await res.json();
+      } catch (err: unknown) {
+        if ((err instanceof Error && err.name === 'AbortError') || retriesLeft <= 0) {
+          throw err;
         }
-        return res.json();
-      })
+        await new Promise((resolve) => setTimeout(resolve, 2500));
+        return fetchWithRetry(retriesLeft - 1);
+      }
+    };
+
+    fetchWithRetry(1)
       .then((data) => {
         if (!isMounted || !Array.isArray(data)) return;
 
-        setCourses(data);
+        setCourses(data as Course[]);
         setHasFetchedCourses(true);
+        setIsWakingServer(false);
+        setFetchError(false);
         localStorage.setItem(
           COURSE_CACHE_KEY,
-          JSON.stringify({ data, timestamp: Date.now() } satisfies CourseCacheEntry)
+          JSON.stringify({ data: data as Course[], timestamp: Date.now() } satisfies CourseCacheEntry)
         );
       })
-      .catch((err) => {
+      .catch((err: unknown) => {
+        if (err instanceof Error && err.name === 'AbortError') return;
         console.error('API Error:', err);
-        if (isMounted) setHasFetchedCourses(true);
+        if (isMounted) {
+          setHasFetchedCourses(true);
+          setIsWakingServer(false);
+          setFetchError(true);
+        }
+      })
+      .finally(() => {
+        window.clearTimeout(wakeTimer);
       });
 
     return () => {
       isMounted = false;
+      window.clearTimeout(wakeTimer);
+      controller.abort();
     };
-  }, []);
+  }, [fetchAttempt]);
 
   // Universal WhatsApp DM Helper (Bypasses mobile share sheets & works on desktop web)
   const openEmperorDM = (e: React.MouseEvent) => {
@@ -482,13 +511,40 @@ export default function App() {
             <div className="bg-white dark:bg-[#0c1220] border border-slate-200 dark:border-[#16213a] shadow-md dark:shadow-none rounded-2xl p-9 relative z-20 animate-[fadeUp_0.4s_ease_both]">
               {isLoadingCourses && courses.length === 0 && (
                 <div className="mb-5 animate-pulse space-y-3">
-                  <div className="h-3 w-28 rounded bg-slate-200 dark:bg-[#16213a]" />
+                  <div className="flex items-center justify-between">
+                    <div className="h-3 w-28 rounded bg-slate-200 dark:bg-[#16213a]" />
+                    {isWakingServer && (
+                      <span className="font-mono text-[10px] text-sky-600 dark:text-[#00e5ff]">
+                        Waking up server (~30s on first visit)...
+                      </span>
+                    )}
+                  </div>
                   <div className="h-12 w-full rounded-xl bg-slate-200 dark:bg-[#16213a]" />
                   <div className="space-y-2 pt-2">
                     {[0, 1, 2, 3].map((row) => (
                       <div key={row} className="h-14 rounded-xl bg-slate-100 dark:bg-[#0b1220] border border-slate-200 dark:border-[#16213a]" />
                     ))}
                   </div>
+                </div>
+              )}
+
+              {!isLoadingCourses && fetchError && courses.length === 0 && (
+                <div className="mb-5 p-4 rounded-xl border border-amber-300/60 dark:border-amber-500/30 bg-amber-50/70 dark:bg-amber-950/20 flex items-center justify-between gap-3">
+                  <span className="text-[12px] text-amber-800 dark:text-amber-300">
+                    Server took too long to wake up or network interrupted.
+                  </span>
+                  <button
+                    type="button"
+                    onClick={() => {
+                      setFetchError(false);
+                      setIsWakingServer(false);
+                      setHasFetchedCourses(false);
+                      setFetchAttempt((prev) => prev + 1);
+                    }}
+                    className="px-3 py-1.5 rounded-lg bg-sky-600 hover:bg-sky-500 text-white font-mono text-[11px] shrink-0 transition"
+                  >
+                    Retry
+                  </button>
                 </div>
               )}
               <div className="absolute top-0 inset-x-0 h-px bg-gradient-to-r from-transparent via-sky-500/40 dark:via-[#00e5ff66] to-transparent"></div>
